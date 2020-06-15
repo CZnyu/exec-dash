@@ -18,7 +18,6 @@ onlyfiles = [f for f in listdir(data_location) if isfile(join(data_location, f))
 while True:
     file_name = input("Input name of file for which you are seeking data: ")
     if [p for p in onlyfiles if p == file_name]:
-        print("YAY!")
         break
     else:
         print("Data is unavailable; you may try again using a different input.")
@@ -27,7 +26,9 @@ parts = re.split('-|\.',file_name)
 str_date = parts[1]
 #source: https://www.geeksforgeeks.org/python-split-multiple-characters-from-string/
 
-
+report_date = datetime.strptime(str_date, "%Y%m")
+formatted_date = report_date.strftime("%B %Y")
+print(formatted_date)
 
 # def to_usd(my_price):
 #     return f"${my_price:,.2f}"
