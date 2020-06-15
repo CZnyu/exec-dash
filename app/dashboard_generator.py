@@ -10,8 +10,6 @@ def to_usd(my_price):
     return f"${my_price:,.2f}"
 
 
-print(os.path.dirname(__file__))
-
 while True:
     file_name = input("Input name of file for which you are seeking data: ")
     
@@ -94,15 +92,28 @@ while True:
     else:
         print("Data is unavailable for that month. Please try a different input.")
 
+#locating the proper file path
+
 csv_filepath = os.path.join(os.path.dirname(__file__), "..", "data", str(file_name))
 
 csv_filename = file_name
 csv_data = pd.read_csv(csv_filepath)
 
+# CALCULATIONS
 monthly_total = csv_data["sales price"].sum()
 
-print(monthly_total)
+#print(monthly_total)
 
+product_totals = csv_data.groupby("product").sum()
+
+product_totals = product_totals.sort_values("sales price", ascending=False)
+
+top_sellers = []
+rank = 1
+for i, row in product_totals.iterrows():
+    d = {"rank": rank, "name": row.name, "monthly_sales": row["sales price"]}
+    top_sellers.append(d)
+    rank = rank + 1
 
 # df = pd.read_csv(csv_filepath)
 # print(type(df))
@@ -121,17 +132,18 @@ print(monthly_total)
 # print("-----------------------")
 # print("MONTH: March 2018")
 
-# print("-----------------------")
-# print("CRUNCHING THE DATA...")
+print("-----------------------")
+print("CRUNCHING THE DATA...")
 
-# print("-----------------------")
-# print("TOTAL MONTHLY SALES: $12,000.71")
+print("-----------------------")
+print(f"TOTAL MONTHLY SALES: {to_usd(monthly_total)}")
 
-# print("-----------------------")
-# print("TOP SELLING PRODUCTS:")
-# print("  1) Button-Down Shirt: $6,960.35")
-# print("  2) Super Soft Hoodie: $1,875.00")
-# print("  3) etc.")
+print("-----------------------")
+print("TOP SELLING PRODUCTS:")
+for d in top_sellers:
+    print("  " + str(d["rank"]) + ") " + d["name"] +
+          ": " + to_usd(d["monthly_sales"]))
 
 # print("-----------------------")
 # print("VISUALIZING THE DATA...")
+# Generate Bar Chart for data
