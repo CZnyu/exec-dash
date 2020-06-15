@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.ticker as ticker
 import math
+import re
 from datetime import datetime
 
 
@@ -20,10 +21,19 @@ onlyfiles = [f for f in listdir(data_location) if isfile(join(data_location, f))
 
 while True:
     file_name = input("Input name of file for which you are seeking data: ")
-    if [p for p in onlyfiles if p == file_name]
+    if [p for p in onlyfiles if p == file_name]:
         break
     else:
         print("Data is unavailable; you may try again using a different input.")
+
+parts = re.split('-|\.',file_name)
+str_date = parts[1]
+#source: https://www.geeksforgeeks.org/python-split-multiple-characters-from-string/
+
+report_date = datetime.strptime(str_date, "%Y%m")
+formatted_date = report_date.strftime("%B %Y")
+#print(formatted_date)
+#source for above: https://stackoverflow.com/questions/55978255/extract-the-file-name-yyyymmdd-csv-and-display-the-string-yyyy-mm-dd
 
 #locating the proper file path
 
@@ -48,22 +58,9 @@ for i, row in product_totals.iterrows():
     top_sellers.append(d)
     rank = rank + 1
 
-# df = pd.read_csv(csv_filepath)
-# print(type(df))
-# print(df.head())
 
-#products = df.to_dict("records")
-
-#  sales_files = []
-#  for root, dirs, files in os.walk(r"(__file__), "..", "data")":
-#       for file in files:
-#           if file.endswith('.csv'):
-#               sales_files.append(file)
-
-#print(sales_files)
-
-# print("-----------------------")
-# print("MONTH: March 2018")
+print("-----------------------")
+print("MONTH: " + str(formatted_date))
 
 print("-----------------------")
 print("CRUNCHING THE DATA...")
@@ -93,7 +90,7 @@ for i, v in enumerate(actuals):
     ax.text(v + 3, i + .25, str(to_usd((v))), color='blue', fontweight='bold')
 #https://stackoverflow.com/questions/30228069/how-to-display-the-value-of-the-bar-on-each-bar-with-pyplot-barh
 ax.invert_yaxis()
-plt.title('Top-Selling Products')
+plt.title('Top-Selling Products ' + '(' + str(formatted_date) + ')')
 formatter = ticker.FormatStrFormatter('$%1.2f')
 ax.xaxis.set_major_formatter(formatter)
 #Source of above code: https://matplotlib.org/3.1.1/gallery/pyplots/dollar_ticks.html
