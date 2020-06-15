@@ -29,6 +29,7 @@ str_date = parts[1]
 report_date = datetime.strptime(str_date, "%Y%m")
 formatted_date = report_date.strftime("%B %Y")
 print(formatted_date)
+#source for above: https://stackoverflow.com/questions/55978255/extract-the-file-name-yyyymmdd-csv-and-display-the-string-yyyy-mm-dd
 
 # def to_usd(my_price):
 #     return f"${my_price:,.2f}"

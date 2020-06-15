@@ -16,6 +16,7 @@ data_location = os.path.join(os.path.dirname(__file__), "..", "data")
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(data_location) if isfile(join(data_location, f))]
+#abovesource: https://stackoverflow.com/questions/3207219/how-do-i-list-all-files-of-a-directory
 
 #print(onlyfiles)
 
@@ -87,7 +88,7 @@ plt.yticks(y_pos, best)
 plt.xlabel('Sales (USD)')
 #add value above bar graphs
 for i, v in enumerate(actuals):
-    ax.text(v + 3, i + .25, str(to_usd((v))), color='blue', fontweight='bold')
+    ax.text(v + 3, i + .25, str(to_usd((v))), color='blue')
 #https://stackoverflow.com/questions/30228069/how-to-display-the-value-of-the-bar-on-each-bar-with-pyplot-barh
 ax.invert_yaxis()
 plt.title('Top-Selling Products ' + '(' + str(formatted_date) + ')')
@@ -96,3 +97,33 @@ ax.xaxis.set_major_formatter(formatter)
 #Source of above code: https://matplotlib.org/3.1.1/gallery/pyplots/dollar_ticks.html
 plt.show()
 
+# Generate a Pie Chart for data
+fig, ax1 = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
+
+data = [y["monthly_sales"] for y in top_sellers]
+products = [x["name"] for x in top_sellers]
+
+def func(pct, allvals):
+    absolute = int(pct/100.*np.sum(allvals))
+    return "{:.1f}%".format(pct)
+
+wedges, texts, autotexts = ax1.pie(data, autopct=lambda pct: func(pct, data), textprops=dict(color="w"))
+
+ax1.legend(wedges, products, title="Products", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+
+plt.setp(autotexts, size=8, weight="bold")
+
+ax1.set_title('Top-Selling Products by % Total Monthly Sales ' + '(' + str(formatted_date) + ')')
+
+plt.show()
+
+#above code source: https://matplotlib.org/gallery/pie_and_polar_charts/pie_and_donut_labels.html?highlight=pie%20chart%20legend
+
+# labels = [x["name"] for x in top_sellers]
+# values = [(y["monthly_sales"])/monthly_total for y in top_sellers]
+# fig1, ax1 = plt.subplots()
+# plt.legend(title="Products", loc="center left")
+# plt.title('Top-Selling Products by % ' + '(' + str(formatted_date) + ')')
+# ax1.pie(values, autopct='%1.0f%%', startangle=90)
+# ax1.axis('equal')
+# plt.show()
