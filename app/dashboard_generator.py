@@ -147,12 +147,19 @@ for d in top_sellers:
 print("-----------------------")
 print("VISUALIZING THE DATA...")
 #Generate Bar Chart for data
+fig, ax = plt.subplots()
+#Source: https://pythonspot.com/matplotlib-bar-chart/
 best = [x["name"] for x in top_sellers]
 y_pos = (np.arange(len(best)))
 actuals = [y["monthly_sales"] for y in top_sellers]
 plt.barh(y_pos, actuals, align='center')
 plt.yticks(y_pos, best)
 plt.xlabel('Sales (USD)')
+#add value above bar graphs
+for i, v in enumerate(actuals):
+    ax.text(v + 3, i + .25, str(to_usd((v))), color='blue', fontweight='bold')
+#https://stackoverflow.com/questions/30228069/how-to-display-the-value-of-the-bar-on-each-bar-with-pyplot-barh
 plt.title('Top-Selling Products')
 plt.gcf().axes[0].xaxis.get_major_formatter().set_scientific(False)
 plt.show()
+
