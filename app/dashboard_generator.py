@@ -2,6 +2,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib.ticker as ticker
 import math
 from datetime import datetime
 
@@ -90,7 +91,7 @@ while True:
         print("MONTH: April 2019")
         break
     else:
-        print("Data is unavailable for that month. Please try a different input.")
+        print("Data is unavailable; you may try again using a different input.")
 
 #locating the proper file path
 
@@ -159,7 +160,9 @@ plt.xlabel('Sales (USD)')
 for i, v in enumerate(actuals):
     ax.text(v + 3, i + .25, str(to_usd((v))), color='blue', fontweight='bold')
 #https://stackoverflow.com/questions/30228069/how-to-display-the-value-of-the-bar-on-each-bar-with-pyplot-barh
+ax.invert_yaxis()
 plt.title('Top-Selling Products')
-plt.gcf().axes[0].xaxis.get_major_formatter().set_scientific(False)
+formatter = ticker.FormatStrFormatter('$%1.2f')
+ax.xaxis.set_major_formatter(formatter)
 plt.show()
 
