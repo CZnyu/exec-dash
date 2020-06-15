@@ -115,44 +115,4 @@ for i, row in product_totals.iterrows():
     top_sellers.append(d)
     rank = rank + 1
 
-# df = pd.read_csv(csv_filepath)
-# print(type(df))
-# print(df.head())
-
-#products = df.to_dict("records")
-
-#  sales_files = []
-#  for root, dirs, files in os.walk(r"(__file__), "..", "data")":
-#       for file in files:
-#           if file.endswith('.csv'):
-#               sales_files.append(file)
-
-#print(sales_files)
-
-# print("-----------------------")
-# print("MONTH: March 2018")
-
-print("-----------------------")
-print("CRUNCHING THE DATA...")
-
-print("-----------------------")
-print(f"TOTAL MONTHLY SALES: {to_usd(monthly_total)}")
-
-print("-----------------------")
-print("TOP SELLING PRODUCTS:")
-for d in top_sellers:
-    print("  " + str(d["rank"]) + ") " + d["name"] +
-          ": " + to_usd(d["monthly_sales"]))
-
-print("-----------------------")
-print("VISUALIZING THE DATA...")
-#Generate Bar Chart for data
-best = [x["name"] for x in top_sellers]
-y_pos = (np.arange(len(best)))
-actuals = [y["monthly_sales"] for y in top_sellers]
-plt.barh(y_pos, actuals, align='center')
-plt.yticks(y_pos, best)
-plt.xlabel('Sales (USD)')
-plt.title('Top-Selling Products')
-plt.gcf().axes[0].xaxis.get_major_formatter().set_scientific(False)
-plt.show()
+print(top_sellers)
